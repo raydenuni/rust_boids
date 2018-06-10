@@ -8,24 +8,24 @@ use ggez::graphics::{Point2, Vector2};
 /// math stuff  We just add some helpers.
 /// **********************************************************************
 
-/// Create a unit vector representing the
-/// given angle (in radians)
-pub fn vec_from_angle(angle: f32) -> Vector2 {
-    let vx = angle.sin();
-    let vy = angle.cos();
-    Vector2::new(vx, vy)
-}
+// /// Create a unit vector representing the
+// /// given angle (in radians)
+// pub fn vec_from_angle(angle: f32) -> Vector2 {
+//     let vx = angle.sin();
+//     let vy = angle.cos();
+//     Vector2::new(vx, vy)
+// }
 
 pub fn angle_from_vec(vec: &Vector2) -> f32 {
     vec.x.atan2(vec.y)
 }
 
-/// Just makes a random `Vector2` with the given max magnitude.
-pub fn random_vec(max_magnitude: f32) -> Vector2 {
-    let angle = rand::random::<f32>() * 2.0 * ::std::f32::consts::PI;
-    let mag = rand::random::<f32>() * max_magnitude;
-    vec_from_angle(angle) * (mag)
-}
+// /// Just makes a random `Vector2` with the given max magnitude.
+// pub fn random_vec(max_magnitude: f32) -> Vector2 {
+//     let angle = rand::random::<f32>() * 2.0 * ::std::f32::consts::PI;
+//     let mag = rand::random::<f32>() * max_magnitude;
+//     vec_from_angle(angle) * (mag)
+// }
 
 /// Translates the world coordinate system, which
 /// has Y pointing up and the origin at the center,

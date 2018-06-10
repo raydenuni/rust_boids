@@ -5,7 +5,7 @@ use ggez::{Context, GameResult};
 use math;
 use rand;
 
-const NUM_BOIDS:usize = 30;
+const NUM_BOIDS:usize = 50;
 
 const ACCELERATION_LIMIT: f32 = 30.;
 const SPEED_LIMIT: f32 = 100.;
@@ -18,7 +18,7 @@ const COH_DIST_SQ:f32 = COHESION_DISTANCE * COHESION_DISTANCE;
 const ALIGNMENT_DISTANCE:f32 = 200.;
 const ALI_DIST_SQ:f32 = ALIGNMENT_DISTANCE * ALIGNMENT_DISTANCE;
 
-const SEPARATION_FORCE:f32 = 0.15;
+const SEPARATION_FORCE:f32 = 1.15;
 const COHESION_FORCE:f32 = 0.1;
 const ALIGNMENT_FORCE:f32 = 0.25;
 
@@ -46,10 +46,9 @@ impl BoidComponent {
     }
 
     pub fn spawn_random(&mut self) -> usize {
-        println!("boids.spawn_random()");
         self.position.push(Point2::new(100. * rand::random::<f32>(), 100. * rand::random::<f32>()));
         self.acceleration.push(Vector2::new(0., 0.));
-        self.velocity.push(Vector2::new(400. * rand::random::<f32>() - 100., 400. * rand::random::<f32>() - 100.));
+        self.velocity.push(Vector2::new(400. * rand::random::<f32>() - 200., 400. * rand::random::<f32>() - 200.));
         self.position.len() - 1
     }
 
@@ -68,19 +67,13 @@ impl BoidComponent {
                 if b == target {
                     continue;
                 }
-                //println!("boid {} - target {}", b, target);
 
                 let spare = self.position[b] - self.position[target];
                 let dist_squared = spare.x*spare.x + spare.y*spare.y;
-                //let dist = spare.norm();
-                //println!("dist_squared {}", dist_squared);
-                //println!("dist {}", dist);
 
                 if dist_squared < SEP_DIST_SQ {
-                    s_force += spare;
-                    //println!("within range of separation: {}", spare);
+                    s_force += spare * 1000. / spare.norm().powf(2.);
                 } else {
-                    //println!("NOT within range of separation");
                     if dist_squared < COH_DIST_SQ
                     {
                         c_force += spare;
