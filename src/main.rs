@@ -37,8 +37,7 @@ impl Assets {
 struct MainState {
     boid_mgr: boids_mgr::BoidComponent,
     assets: Assets,
-    screen_width: u32,
-    screen_height: u32,
+    screen_size: Vector2,
     frames: usize,
     fps_display: graphics::Text,
 }
@@ -56,13 +55,14 @@ impl MainState {
         let fps_disp = graphics::Text::new(ctx, "fps", &assets.font)?;
 
         let mut boid_mgr = boids_mgr::BoidComponent::new();
-        boid_mgr.init();
+        let screen_size = Vector2::new(ctx.conf.window_mode.width as f32, ctx.conf.window_mode.height as f32);
+
+        boid_mgr.init(&screen_size);
 
         let s = MainState {
             boid_mgr,
             assets,
-            screen_width: ctx.conf.window_mode.width,
-            screen_height: ctx.conf.window_mode.height,
+            screen_size,
             frames: 0,
             fps_display: fps_disp,
         };
@@ -100,15 +100,15 @@ impl EventHandler for MainState {
         while timer::check_update_time(ctx, DESIRED_FPS) {
             const SECONDS: f32 = 1.0 / (DESIRED_FPS as f32);
             self.update_ui(ctx);
-            self.boid_mgr.update(SECONDS, Vector2::new(self.screen_width as f32, self.screen_height as f32));
+            self.boid_mgr.update(SECONDS, &self.screen_size);
         }
         Ok(())
     }
 
     fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
         graphics::clear(ctx);
-        
-        self.boid_mgr.draw(ctx, &mut self.assets, (self.screen_width, self.screen_height))?;
+
+        self.boid_mgr.draw(ctx, &mut self.assets, (self.screen_size.x as u32, self.screen_size.y as u32))?;
 
         let fps_dest = graphics::Point2::new(400.0, 10.0);
         graphics::draw(ctx, &self.fps_display, fps_dest, 0.0)?;
@@ -150,7 +150,7 @@ impl EventHandler for MainState {
 pub fn main() {
     let mut cb = ContextBuilder::new("boids", "ggez")
         .window_setup(conf::WindowSetup::default().title("Boids!"))
-        .window_mode(conf::WindowMode::default().dimensions(800, 800));
+        .window_mode(conf::WindowMode::default().dimensions(1200, 1200));
 
     // We add the CARGO_MANIFEST_DIR/resources to the filesystems paths so
     // we we look in the cargo project for files.
