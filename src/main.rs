@@ -327,8 +327,8 @@ impl EventHandler for MainState {
 /// `ggez::event::run()` with our `EventHandler` type.
 /// **********************************************************************
 pub fn main() {
-    let mut cb = ContextBuilder::new("astroblasto", "ggez")
-        .window_setup(conf::WindowSetup::default().title("Astroblasto!"))
+    let mut cb = ContextBuilder::new("boids", "ggez")
+        .window_setup(conf::WindowSetup::default().title("Boids!"))
         .window_mode(conf::WindowMode::default().dimensions(800, 800));
 
     // We add the CARGO_MANIFEST_DIR/resources to the filesystems paths so
