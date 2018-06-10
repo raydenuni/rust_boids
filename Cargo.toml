@@ -1,0 +1,8 @@
+[package]
+name = "boids"
+version = "0.1.0"
+authors = ["Matthew"]
+
+[dependencies]
+ggez ="0.4"
+rand = "0.4"
