@@ -9,3 +9,5 @@ References:
 - https://processing.org/examples/flocking.html
 - http://www.kfish.org/boids/pseudocode.html
 - https://github.com/anoopelias/boids
+
+![short gif](: https://gfycat.com/LateDownrightGangesdolphin)
